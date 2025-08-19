@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Hearts & Passcode Lock with Envelope</title>
+
+    <!-- Ballet font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ballet&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hurricane&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="heart-background"></div>
+
+    <div id="passcode-container">
+      <h2>
+        <svg
+          id="lock-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-7h-1V7a5 5 0 10-10 0v3H6a2 2 0 00-2 2v7a2 2 0 002 2h12a2 2 0 002-2v-7a2 2 0 00-2-2zM8 7a4 4 0 118 0v3H8V7z"
+          />
+        </svg>
+        Enter passcode
+      </h2>
+
+      <p id="hint-text">Hint: the day we got together</p>
+
+      <div id="passcode-dots" aria-hidden="true"></div>
+
+      <div id="number-pad" aria-label="numeric keypad"></div>
+
+      <p id="error-message">Wrong passcode. Try again!</p>
+    </div>
+
+    <!-- Envelope -->
+    <div id="envelope">
+      <div id="click-me-text">Click me</div>
+      <div id="triangle-container">
+        <div id="triangle-flap"></div>
+        <div class="triangle-shadow left"></div>
+        <div class="triangle-shadow right"></div>
+      </div>
+
+      <div
+        id="letter"
+        style="
+          padding: 20px;
+          max-width: 350px;
+          margin: 0 auto;
+          overflow-y: auto;
+          font-family: Arial, sans-serif;
+          color: black;
+          line-height: 1.5;
+          position: relative;
+        "
+      >
+        <!-- 6 hearts relative to Click Me -->
+        <div class="letter-heart heart-top1"></div>
+        <div class="letter-heart heart-top2"></div>
+        <div class="letter-heart heart-top3"></div>
+        <div class="letter-heart heart-bottom1"></div>
+        <div class="letter-heart heart-bottom2"></div>
+        <div class="letter-heart heart-bottom3"></div>
+
+        <!-- Click Me text inside letter -->
+        <div id="letter-click-me">Click me</div>
+
+        <div id="letter-content">
+          <h2
+            style="
+              color: #2f86ff;
+              text-align: center;
+              margin-top: -10px;
+              margin-bottom: 12px;
+              font-size: 40px;
+              font-family: 'Hurricane';
+            "
+          >
+            Happy four months whore!!
+          </h2>
+
+          <p>
+            I'm just gonna start by saying I'm so grateful to have you, I really
+            couldn't have asked for anyone better than this.
+          </p>
+
+          <p>
+            You never fail to make me feel so happy and safe. I'm so lucky to
+            have you in my life.
+          </p>
+
+          <p>
+            You're sweet, funny, smart and super handsome, literally the
+            definition of perfect, I literally love every single trait about
+            you.
+          </p>
+
+          <p>
+            Every day, you're the only person I look forward to talk to, you're
+            the first person I think of when I wake up, I seriously can't get
+            enough of you.
+          </p>
+
+          <p>
+            I love you so so much&nbsp;
+            <span
+              style="
+                vertical-align: middle;
+                display: inline-block;
+                width: 24px;
+                height: 24px;
+              "
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="url(#grad)"
+                stroke="none"
+                width="24"
+                height="24"
+              >
+                <defs>
+                  <radialGradient
+                    id="grad"
+                    cx="0.5"
+                    cy="0.3"
+                    r="0.8"
+                    fx="0.5"
+                    fy="0.3"
+                  >
+                    <stop offset="0%" stop-color="#ff5a5f" />
+                    <stop offset="50%" stop-color="#e03950" />
+                    <stop offset="100%" stop-color="#c3002f" />
+                  </radialGradient>
+                </defs>
+                <path
+                  d="M12 21s-6-4.35-9-9a6 6 0 0110-7 6 6 0 0110 7c-3 4.65-9 9-9 9z"
+                />
+              </svg>
+            </span>
+          </p>
+
+          <p>Ur dear owner. ❤</p>
+        </div>
+      </div>
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 386 156"
+        style="
+          position: absolute;
+          top: 7.5px;
+          left: 2%;
+          width: 400px;
+          height: 156px;
+          pointer-events: none;
+          z-index: 30;
+          transform: rotate(180deg);
+          transform-origin: center;
+        "
+        aria-hidden="true"
+      >
+        <defs>
+          <filter
+            id="shadow"
+            x="-50%"
+            y="-50%"
+            width="200%"
+            height="200%"
+            color-interpolation-filters="sRGB"
+          >
+            <feDropShadow
+              dx="0"
+              dy="18"
+              stdDeviation="15"
+              flood-color="#000000"
+              flood-opacity="0.85"
+            />
+          </filter>
+        </defs>
+
+        <path
+          d="M0 156 L180 40 Q192 30 204 40 L384 156 Z"
+          fill="#ffffff"
+          filter="url(#shadow)"
+        />
+      </svg>
+
+      <div id="envelope-border">
+        <div id="envelope-content"></div>
+      </div>
+    </div>
+
+    <div id="back-arrow" title="Go back">←</div>
+
+    <!-- Link to external JS -->
+    <script src="script.js"></script>
+  </body>
+</html>

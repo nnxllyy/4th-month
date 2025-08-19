@@ -1,0 +1,575 @@
+/* Page */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #a0c4ff, #4a6ef0, #2f86ff);
+  color: white;
+  overflow: hidden;
+}
+
+/* Hearts background */
+#heart-background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.heart {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  animation: floatUpDown 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px rgba(53, 115, 242, 0.4));
+  display: block;
+}
+@keyframes floatUpDown {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
+}
+
+/* Passcode container */
+#passcode-container {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  padding: 28px;
+  background: rgba(255 255 255 / 0.12);
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  z-index: 10;
+  transition: opacity 0.7s ease;
+}
+#passcode-container.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#passcode-container h2 {
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: "Ballet", cursive;
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1;
+  color: #ffffff;
+}
+
+#lock-icon {
+  width: 26px;
+  height: 26px;
+  fill: #ffffff;
+}
+
+#hint-text {
+  margin: 0 0 18px 0;
+  color: #bcdbff;
+  font-style: italic;
+  font-size: 13px;
+}
+
+#passcode-dots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.passcode-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  background: transparent;
+  transition: background 0.25s;
+}
+.passcode-dot.filled {
+  background: #ffffff;
+  border-color: #ffffff;
+}
+
+#number-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  justify-items: center;
+}
+#number-pad button {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  background: #2f86ff;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s, transform 0.08s;
+  box-shadow: 0 6px 14px rgba(47, 134, 255, 0.18);
+}
+#number-pad button:hover {
+  background: #1d66d6;
+  transform: translateY(-2px);
+}
+#number-pad .spacer {
+  width: 64px;
+  height: 64px;
+  background: transparent;
+}
+#error-message {
+  color: #355cbf;
+  margin-top: 12px;
+  visibility: hidden;
+  font-weight: 600;
+}
+
+/* Envelope styles */
+#envelope {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 416px;
+  height: 286px;
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-sizing: border-box;
+  border: none;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  display: block;
+  pointer-events: none;
+  transition: opacity 0.7s ease;
+  z-index: 15;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Click me text */
+#click-me-text {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Ballet", cursive;
+  font-size: 28px;
+  color: #ffffff;
+  pointer-events: none;
+  user-select: none;
+  z-index: 40;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+}
+
+#click-me-text.fade-out {
+  opacity: 0;
+  transition: opacity 0.7s ease;
+  pointer-events: none;
+}
+
+/* Triangle flap with side shadows container */
+#triangle-container {
+  position: absolute;
+  top: 78px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 390px;
+  height: 200px;
+  pointer-events: none;
+  z-index: 24;
+
+  overflow: hidden;
+}
+
+#triangle-flap {
+  width: 0;
+  height: 0;
+  border-left: 195px solid transparent;
+  border-right: 195px solid transparent;
+  border-bottom: 200px solid #ffffff;
+  margin: 0 auto;
+  position: relative;
+  z-index: 25;
+}
+
+/* Left shadow */
+#triangle-flap::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -195px;
+  width: 195px;
+  height: 200px;
+  background: transparent;
+  clip-path: polygon(100% 0, 0 100%, 100% 100%);
+  box-shadow: -8px 0 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Right shadow */
+#triangle-flap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 195px;
+  height: 200px;
+  background: transparent;
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+  box-shadow: 8px 0 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Both shadow triangles are real triangles, slightly bigger than the gray one */
+.triangle-shadow {
+  position: absolute;
+  top: -2px; /* small shift to align with flap */
+  z-index: 24; /* just under the flap */
+  filter: blur(6px); /* soften shadow */
+  pointer-events: none;
+}
+
+/* Left side shadow */
+.triangle-shadow.left {
+  left: 0px;
+  border-left: 190px solid transparent;
+  border-right: 0 solid transparent;
+  border-bottom: 200px solid rgba(0, 0, 0, 0.25);
+  filter: blur(5px);
+  transform: translateX(2px); /* flip so slant matches */
+  position: absolute;
+  top: -2px;
+  z-index: 24;
+}
+
+/* Right side shadow */
+.triangle-shadow.right {
+  right: -6px;
+  border-left: 0 solid transparent;
+  border-right: 200px solid transparent;
+  filter: blur(5px);
+  border-bottom: 205px solid rgba(0, 0, 0, 0.25);
+}
+/* Diagonal striped border inside using a pseudo-element */
+#envelope::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  border-radius: 20px;
+  padding: 8px;
+  background: repeating-linear-gradient(
+    45deg,
+    #ffffff 0,
+    #e7d8b9 8px,
+    #608bd0 8px,
+    #95beff 16px
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+/* Back arrow */
+#back-arrow {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  z-index: 20;
+  display: none;
+  transition: opacity 0.5s ease;
+}
+#back-arrow.visible {
+  display: block;
+  opacity: 1;
+}
+@keyframes slideLeftFastSlow {
+  0% {
+    transform: translate(-50%, -50%) translateX(0);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(-300px);
+  }
+}
+
+#envelope.slide-left {
+  animation: slideLeftFastSlow 1s forwards;
+}
+
+#letter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 500px;
+  background: white;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transform: translate(-50%, -50%) translateX(0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.75s ease, transform 1s ease;
+  z-index: 35; /* above envelope flap */
+}
+
+/* When envelope slides left, letter slides right and fades in */
+#envelope.slide-left #letter {
+  transform: translate(-50%, -50%) translateX(600px);
+  opacity: 1;
+}
+
+#letter-content {
+  filter: blur(10px);
+  cursor: pointer;
+  transition: filter 0.4s ease;
+}
+
+#letter-content.unblurred {
+  filter: none;
+  cursor: default;
+}
+
+#letter-click-me {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Ballet", cursive;
+  font-size: 60px;
+  color: #2f86ff;
+  cursor: pointer;
+  user-select: none;
+  z-index: 40;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  transition: opacity 0.7s ease;
+}
+
+#letter-click-me.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- Base heart shape ---------- */
+.letter-heart {
+  position: absolute;
+  background: red;
+  transform: rotate(-45deg);
+  z-index: 50;
+}
+
+/* ---------- Hearts above Click Me ---------- */
+/* Heart 1 */
+.heart-top1 {
+  top: 120px;
+  left: 65px;
+  width: 37px;
+  height: 37px;
+  transform: rotate(-72deg);
+  background: #4b9cd3;
+}
+.heart-top1::before,
+.heart-top1::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: #4b9cd3;
+}
+.heart-top1::before {
+  width: 37px;
+  height: 37px;
+  top: -18px;
+  left: 0;
+}
+.heart-top1::after {
+  width: 37px;
+  height: 37px;
+  left: 18px;
+  top: 0;
+}
+
+/* Heart 2 */
+.heart-top2 {
+  top: 75px;
+  left: 173px;
+  width: 32px;
+  height: 32px;
+  transform: rotate(-27deg);
+  background: #3176c3;
+}
+.heart-top2::before,
+.heart-top2::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: #3176c3;
+}
+.heart-top2::before {
+  width: 32px;
+  height: 32px;
+  top: -16px;
+  left: 0;
+}
+.heart-top2::after {
+  width: 32px;
+  height: 32px;
+  left: 16px;
+  top: 0;
+}
+
+/* Heart 3 */
+.heart-top3 {
+  top: 145px;
+  left: 288px;
+  width: 50px;
+  height: 50px;
+  transform: rotate(-35deg);
+  background: #abd0f7;
+}
+.heart-top3::before,
+.heart-top3::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: #abd0f7;
+}
+.heart-top3::before {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  left: 0;
+}
+.heart-top3::after {
+  width: 50px;
+  height: 50px;
+  left: 25px;
+  top: 0;
+}
+
+/* ---------- Hearts below Click Me ---------- */
+/* Heart 1 */
+.heart-bottom1 {
+  top: 380px;
+  left: 50px;
+  width: 30px;
+  height: 30px;
+  transform: rotate(-42deg);
+  background: #abd0f7;
+}
+.heart-bottom1::before,
+.heart-bottom1::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: #abd0f7;
+}
+.heart-bottom1::before {
+  width: 30px;
+  height: 30px;
+  top: -15px;
+  left: 0;
+}
+.heart-bottom1::after {
+  width: 30px;
+  height: 30px;
+  left: 15px;
+  top: 0;
+}
+
+/* Heart 2 */
+.heart-bottom2 {
+  top: 440px;
+  left: 200px;
+  width: 55px;
+  height: 55px;
+  transform: rotate(-60deg);
+  background: #4b9cd3;
+}
+.heart-bottom2::before,
+.heart-bottom2::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: #4b9cd3;
+}
+.heart-bottom2::before {
+  width: 55px;
+  height: 55px;
+  top: -27px;
+  left: 0;
+}
+.heart-bottom2::after {
+  width: 55px;
+  height: 55px;
+  left: 27px;
+  top: 0;
+}
+
+/* Heart 3 */
+.heart-bottom3 {
+  top: 360px;
+  left: 300px;
+  width: 35px;
+  height: 35px;
+  transform: rotate(-32deg);
+  background: #3176c3;
+}
+.heart-bottom3::before,
+.heart-bottom3::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: #3176c3;
+}
+.heart-bottom3::before {
+  width: 35px;
+  height: 35px;
+  top: -17px;
+  left: 0;
+}
+.heart-bottom3::after {
+  width: 35px;
+  height: 35px;
+  left: 17px;
+  top: 0;
+}
+
+/* Heart pop animation */
+@keyframes pop {
+  0% {
+    transform: scale(1) rotate(var(--rot));
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.6) rotate(var(--rot));
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0) rotate(var(--rot));
+    opacity: 1;
+  }
+}
+
+.letter-heart.pop {
+  animation: pop 0.4s ease forwards;
+}
